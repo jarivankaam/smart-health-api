@@ -1,0 +1,6 @@
+@smarth_health.Test_HostAddress = http://localhost:5044
+
+GET {{smarth_health.Test_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
