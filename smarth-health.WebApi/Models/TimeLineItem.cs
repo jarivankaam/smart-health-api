@@ -8,10 +8,10 @@ namespace smarth_health.WebApi.Models
         public Guid ID;
         public String Content;
         public bool Video;
-        public String VideoPath;
+        public String? VideoPath;
         public bool Medicine;
         public String ToolTipContent;
-        public String ImagePath;
+        public String? ImagePath;
         public String Position;
         public Guid TimeLineID;
 
