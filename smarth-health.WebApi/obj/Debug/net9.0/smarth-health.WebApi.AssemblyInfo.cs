@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("smarth-health.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc9724cf695644c71afa83ec3a13ffcebc186ca3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2d1b8c22f1c79d476427cb49bb702c2fd42f28f9")]
 [assembly: System.Reflection.AssemblyProductAttribute("smarth-health.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("smarth-health.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
