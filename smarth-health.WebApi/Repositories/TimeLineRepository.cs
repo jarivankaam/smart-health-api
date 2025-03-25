@@ -4,71 +4,52 @@ using System.Data;
 
 namespace smarth_health.WebApi.Repositories
 {
-    public class TimeLineItemRepository : ITimeLineItemRepository
+    public class TimelineRepository : ITimelineRepository
     {
         private readonly IDbConnection _dbConnection;
 
-        public TimeLineItemRepository(IDbConnection dbConnection)
+        public TimelineRepository(IDbConnection dbConnection)
         {
             _dbConnection = dbConnection;
         }
 
-        public async Task<IEnumerable<TimeLineItem>> GetAllAsync()
+        public async Task<IEnumerable<Timeline>> GetAllAsync()
         {
-            var sql = "SELECT * FROM TimeLineItems";
-            return await _dbConnection.QueryAsync<TimeLineItem>(sql);
+            var sql = "SELECT * FROM Timeline";
+            return await _dbConnection.QueryAsync<Timeline>(sql);
         }
 
-        public async Task<TimeLineItem> GetByIdAsync(Guid id)
+        public async Task<Timeline> ReadAsync(Guid id)
         {
-            var sql = "SELECT * FROM TimeLineItems WHERE ID = @Id";
-            return await _dbConnection.QueryFirstOrDefaultAsync<TimeLineItem>(sql, new { Id = id });
+            var sql = "SELECT * FROM Timeline WHERE Id = @Id";
+            return await _dbConnection.QueryFirstOrDefaultAsync<Timeline>(sql, new { Id = id });
         }
 
-        public async Task CreateAsync(TimeLineItem item)
+        public async Task InsertAsync(Timeline timeline)
         {
-            SanitizeItemStrings(item);
-
             var sql = @"
-            INSERT INTO TimeLineItems (ID, Content, Video, VideoPath, Medicine, ToolTipContent, ImagePath, Position, TimeLineID)
-            VALUES (@ID, @Content, @Video, @VideoPath, @Medicine, @ToolTipContent, @ImagePath, @Position, @TimeLineID)";
+            INSERT INTO Timeline (Id, Name, RouteType, UserID)
+            VALUES (@Id, @Name, @RouteType, @UserID)";
 
-            await _dbConnection.ExecuteAsync(sql, item);
+            await _dbConnection.ExecuteAsync(sql, timeline);
         }
 
-        public async Task UpdateAsync(TimeLineItem item)
+        public async Task UpdateAsync(Timeline timeline)
         {
-            SanitizeItemStrings(item);
-
             var sql = @"
-            UPDATE TimeLineItems
-            SET Content = @Content,
-                Video = @Video,
-                VideoPath = @VideoPath,
-                Medicine = @Medicine,
-                ToolTipContent = @ToolTipContent,
-                ImagePath = @ImagePath,
-                Position = @Position,
-                TimeLineID = @TimeLineID
-            WHERE ID = @ID";
+            UPDATE Timeline
+            SET Name = @Name,
+                RouteType = @RouteType,
+                UserID = @UserID
+            WHERE Id = @Id";
 
-            await _dbConnection.ExecuteAsync(sql, item);
+            await _dbConnection.ExecuteAsync(sql, timeline);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var sql = "DELETE FROM TimeLineItems WHERE ID = @Id";
+            var sql = "DELETE FROM Timeline WHERE Id = @Id";
             await _dbConnection.ExecuteAsync(sql, new { Id = id });
-        }
-
-        private void SanitizeItemStrings(TimeLineItem item)
-        {
-            item.Content = item.Content?.Trim();
-            item.Video = item.Video?.Trim();
-            item.VideoPath = item.VideoPath?.Trim();
-            item.Medicine = item.Medicine?.Trim();
-            item.ToolTipContent = item.ToolTipContent?.Trim();
-            item.ImagePath = item.ImagePath?.Trim();
         }
     }
 }
