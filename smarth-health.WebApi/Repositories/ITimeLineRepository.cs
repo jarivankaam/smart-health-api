@@ -1,5 +1,6 @@
 ﻿namespace smarth_health.WebApi.Repositories;
 using smarth_health.WebApi.Models;
+
 public interface ITimelineRepository
 {
     Task InsertAsync(Timeline timeline);

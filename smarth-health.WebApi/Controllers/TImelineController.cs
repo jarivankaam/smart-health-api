@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using smarth_health.WebApi.Models;
 using smarth_health.WebApi.Repositories;
+
 namespace smarth_health.WebApi.Controllers;
 
 [ApiController]
@@ -22,7 +23,7 @@ public class TimelineController : ControllerBase
         await _timelineRepository.InsertAsync(timeline);
         return CreatedAtAction(nameof(GetTimeline), new { id = timeline.ID }, timeline);
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetTimeline(Guid id)
     {
