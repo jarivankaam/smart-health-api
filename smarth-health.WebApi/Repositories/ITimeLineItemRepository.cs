@@ -1,5 +1,4 @@
-﻿// ITimeLineItemRepository.cs
-using smarth_health.WebApi.Models;
+﻿using smarth_health.WebApi.Models;
 
 namespace smarth_health.WebApi.Repositories
 {
