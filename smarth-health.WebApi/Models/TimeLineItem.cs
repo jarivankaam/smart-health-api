@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace smarth_health.WebApi.Models
+﻿namespace smarth_health.WebApi.Models
 {
     public class TimeLineItem
     {
