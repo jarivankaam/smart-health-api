@@ -1,10 +1,13 @@
-﻿namespace smarth_health.WebApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace smarth_health.WebApi.Models
 {
     public class Timeline
     {
         public Guid ID;
-        public string Name;
+        public required string Name;
         public bool RouteType;
-        public Guid UserID;
+        [Required(ErrorMessage = "Missing UserID")]
+        public required Guid UserID;
     }
 }
