@@ -1,15 +1,20 @@
-﻿namespace smarth_health.WebApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace smarth_health.WebApi.Models
 {
     public class TimeLineItem
     {
         public Guid ID;
-        public String Content;
+        [Required(ErrorMessage = "Missing timeline item content")]
+        public required string Content;
         public bool Video;
-        public String? VideoPath;
+        public string? VideoPath;
         public bool Medicine;
-        public String ToolTipContent;
-        public String? ImagePath;
-        public String Position;
+        [Required(ErrorMessage = "Missing timeline tooltip content")]
+        public required string ToolTipContent;
+        public string? ImagePath;
+        [Required(ErrorMessage = "Missing timeline position")]
+        public required string Position;
         public Guid TimeLineID;
 
     }
