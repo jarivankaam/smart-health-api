@@ -485,3 +485,5 @@ $RECYCLE.BIN/
 # Build artifacts
 bin/
 obj/
+smarth-health.Test/obj
+smarth-health.WebApi/obj
