@@ -1,8 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
-using smarth_health.WebApi.Repositories;
 using System.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using smarth_health.WebApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
