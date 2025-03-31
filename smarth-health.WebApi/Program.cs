@@ -1,9 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using smarth_health.WebApi.Repositories;
-using smarth_health.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +43,6 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 });
 
 // ✅ Register repositories
-builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<ITimelineRepository, TimelineRepository>();
 builder.Services.AddScoped<ITimeLineItemRepository, TimeLineItemRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
