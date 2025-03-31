@@ -15,22 +15,21 @@ namespace smarth_health.WebApi.Repositories
 
         public async Task<IEnumerable<TimeLineItem>> GetAllAsync()
         {
-            var sql = "SELECT * FROM TimeLineItems";
+            var sql = "SELECT * FROM TimeLineItem";
             return await _dbConnection.QueryAsync<TimeLineItem>(sql);
         }
 
         public async Task<TimeLineItem> GetByIdAsync(Guid id)
         {
-            var sql = "SELECT * FROM TimeLineItems WHERE ID = @Id";
+            var sql = "SELECT * FROM TimeLineItem WHERE ID = @Id";
             return await _dbConnection.QueryFirstOrDefaultAsync<TimeLineItem>(sql, new { Id = id });
         }
 
         public async Task CreateAsync(TimeLineItem item)
         {
             SanitizeItemStrings(item);
-
             var sql = @"
-            INSERT INTO TimeLineItems (ID, Content, Video, VideoPath, Medicine, ToolTipContent, ImagePath, Position, TimeLineID)
+            INSERT INTO TimeLineItem (ID, Content, Video, VideoPath, Medicine, ToolTipContent, ImagePath, Position, TimeLineID)
             VALUES (@ID, @Content, @Video, @VideoPath, @Medicine, @ToolTipContent, @ImagePath, @Position, @TimeLineID)";
 
             await _dbConnection.ExecuteAsync(sql, item);
@@ -41,7 +40,7 @@ namespace smarth_health.WebApi.Repositories
             SanitizeItemStrings(item);
 
             var sql = @"
-            UPDATE TimeLineItems
+            UPDATE TimeLineItem
             SET Content = @Content,
                 Video = @Video,
                 VideoPath = @VideoPath,
@@ -57,7 +56,7 @@ namespace smarth_health.WebApi.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            var sql = "DELETE FROM TimeLineItems WHERE ID = @Id";
+            var sql = "DELETE FROM TimeLineItem WHERE ID = @Id";
             await _dbConnection.ExecuteAsync(sql, new { Id = id });
         }
 
