@@ -1,6 +1,9 @@
 ﻿using Dapper;
 using smarth_health.WebApi.Models;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace smarth_health.WebApi.Repositories
 {
@@ -21,8 +24,20 @@ namespace smarth_health.WebApi.Repositories
 
         public async Task<Timeline> ReadAsync(Guid id)
         {
-            var sql = "SELECT * FROM Timeline WHERE Id = @Id";
-            return await _dbConnection.QueryFirstOrDefaultAsync<Timeline>(sql, new { Id = id });
+            var sql = "SELECT Id, Name, RouteType, UserID FROM Timeline WHERE Id = @Id";
+            if (_dbConnection.State != ConnectionState.Open) _dbConnection.Open();
+            var result = await _dbConnection.QueryFirstOrDefaultAsync<Timeline>(sql, new { Id = id });
+
+            if (result == null)
+            {
+                Console.WriteLine($"No timeline found for Id: {id}");
+            }
+            else
+            {
+                Console.WriteLine($"Timeline found: {result.ID}, {result.Name}, {result.RouteType}");
+            }
+
+            return result;
         }
 
         public async Task InsertAsync(Timeline timeline)
