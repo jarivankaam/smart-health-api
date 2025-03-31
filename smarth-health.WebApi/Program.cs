@@ -46,6 +46,7 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 builder.Services.AddScoped<ITimelineRepository, TimelineRepository>();
 builder.Services.AddScoped<ITimeLineItemRepository, TimeLineItemRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDairyRepository, DairyRepository>();
 
 var app = builder.Build();
 
