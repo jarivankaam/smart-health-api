@@ -9,6 +9,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repositories\Dairy\**" />
+    <Compile Remove="Repositories\TimelineItem\**" />
+    <Compile Remove="Repositories\Timeline\**" />
+    <Compile Remove="Repositories\User\**" />
+    <Content Remove="Repositories\Dairy\**" />
+    <Content Remove="Repositories\TimelineItem\**" />
+    <Content Remove="Repositories\Timeline\**" />
+    <Content Remove="Repositories\User\**" />
+    <EmbeddedResource Remove="Repositories\Dairy\**" />
+    <EmbeddedResource Remove="Repositories\TimelineItem\**" />
+    <EmbeddedResource Remove="Repositories\Timeline\**" />
+    <EmbeddedResource Remove="Repositories\User\**" />
+    <None Remove="Repositories\Dairy\**" />
+    <None Remove="Repositories\TimelineItem\**" />
+    <None Remove="Repositories\Timeline\**" />
+    <None Remove="Repositories\User\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Avans.Identity.DapperOrm" Version="1.0.3" />
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
