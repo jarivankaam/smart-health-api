@@ -28,9 +28,13 @@ builder.Services
         options.ConnectionString = sqlConnectionString;
     });
 
-// Controllers and Swagger
+// Controllers
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // ✅ Register direct DB connection
 builder.Services.AddScoped<IDbConnection>(sp =>
@@ -44,6 +48,7 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<ITimelineRepository, TimelineRepository>();
 builder.Services.AddScoped<ITimeLineItemRepository, TimeLineItemRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDairyRepository, DairyRepository>();
 
 var app = builder.Build();
 
@@ -75,6 +80,8 @@ app.Use(async (context, next) =>
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

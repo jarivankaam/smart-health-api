@@ -482,3 +482,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+# Build artifacts
+bin/
+obj/
+smarth-health.Test/obj
+smarth-health.WebApi/obj
