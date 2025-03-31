@@ -4,18 +4,18 @@ namespace smarth_health.WebApi.Models
 {
     public class TimeLineItem
     {
-        public Guid ID;
+        public Guid ID { get; set; }
         [Required(ErrorMessage = "Missing timeline item content")]
-        public required string Content;
-        public bool Video;
-        public string? VideoPath;
-        public bool Medicine;
+        public required string Content { get; set; }
+        public bool Video { get; set; }
+        public string? VideoPath { get; set; }
+        public bool Medicine { get; set; }
         [Required(ErrorMessage = "Missing timeline tooltip content")]
         public required string ToolTipContent;
-        public string? ImagePath;
+        public string? ImagePath { get; set; }
         [Required(ErrorMessage = "Missing timeline position")]
-        public required string Position;
-        public Guid TimeLineID;
+        public required string Position { get; set; }
+        public Guid TimeLineID { get; set; }
 
     }
 }
