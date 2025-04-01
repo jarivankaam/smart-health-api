@@ -20,7 +20,7 @@ namespace smarth_health.WebApi.Repositories
             await _dbConnection.ExecuteAsync(sql, user);
         }
 
-        public async Task<User> ReadAsync(Guid identityUserId)
+        public async Task<UserDto> ReadAsync(Guid identityUserId)
         {
             var sql = @"
             SELECT 
@@ -32,7 +32,7 @@ namespace smarth_health.WebApi.Repositories
                 [dbo].[Users]
             WHERE
                 IdentityUserId = @IdentityUserId";
-            return await _dbConnection.QueryFirstOrDefaultAsync<User>(sql, new { IdentityUserId = identityUserId });
+            return await _dbConnection.QueryFirstOrDefaultAsync<UserDto>(sql, new { IdentityUserId = identityUserId });
         }
     
         public async Task UpdateAsync(User user)
@@ -41,7 +41,7 @@ namespace smarth_health.WebApi.Repositories
             UPDATE 
                 [dbo].[Users]
             SET 
-                DisplayName = @DisplayName
+                DisplayName = @DisplayName,
                 ProfilePhotoPath = @ProfilePhotoPath
             WHERE 
                 ID = @ID";
@@ -49,9 +49,9 @@ namespace smarth_health.WebApi.Repositories
             await _dbConnection.ExecuteAsync(sql, user);
         }
 
-        public async Task DeleteAsync(Guid userId)
+        public async Task DeleteAsync(Guid identityUserId)
         {
-            await _dbConnection.ExecuteAsync("DELETE FROM [dbo].[Users] WHERE ID = @UserId", new { UserId = userId });
+            await _dbConnection.ExecuteAsync("DELETE FROM [auth].[AspNetUsers] WHERE ID = @IdentityUserIderId", new { IdentityUserIderId = identityUserId });
         }
     }
 }

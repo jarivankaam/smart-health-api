@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using smarth_health.WebApi.Models;
 using smarth_health.WebApi.Repositories;
+using smarth_health.WebApi.Services;
 
 namespace smarth_health.WebApi.Controllers
 {
@@ -9,9 +10,11 @@ namespace smarth_health.WebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly IIdentityService _identityService;
+        public UserController(IUserRepository userRepository, IIdentityService identityService)
         {
             _userRepository = userRepository;
+            _identityService = identityService;
         }
 
         // POST
@@ -28,19 +31,52 @@ namespace smarth_health.WebApi.Controllers
 
         // GET / READ
 
+        [HttpGet("CurrentUser")]
+        public async Task<ActionResult<Guid>> GetIdentityIdByUser()
+        {
+            try
+            {
+                var identityUserId = await _identityService.GetCurrentUserIdAsync(User);
+
+                var user = await _userRepository.ReadAsync(Guid.Parse(identityUserId));
+
+                // If user is not found, return 404
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(Guid.Parse(user.IdentityUserID));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized();
+            }
+        }
+
         // Getting a specific user by identityUserId
 
         [HttpGet("{identityUserId:guid}", Name = "GetUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUser([FromBody] Guid identityUserId)
+        public async Task<ActionResult<User>> GetUser([FromBody] Guid identityUserId)
         {
             var user = await _userRepository.ReadAsync(identityUserId);
 
             // If user is not found, return 404
-            if (user == null) 
+            if (user == null)
                 return NotFound();
-            return Ok(user);
+
+            // Mapping
+            var mappedUser = new User()
+            {
+                ID = user.ID,
+                IdentityUserID = Guid.Parse(user.IdentityUserID),
+                DisplayName = user.DisplayName,
+                ProfilePhotoPath = user.ProfilePhotoPath
+            };
+
+            return Ok(mappedUser);
         }
 
         // UPDATE
@@ -61,11 +97,11 @@ namespace smarth_health.WebApi.Controllers
         // DELETE
 
         // Deleting user by userId
-        [HttpDelete("{userId:guid}", Name = "DeleteUser")]
+        [HttpDelete("{identityUserIderId:guid}", Name = "DeleteUser")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> DeleteUser(Guid userId)
+        public async Task<IActionResult> DeleteUser(Guid identityUserIderId)
         {
-            await _userRepository.DeleteAsync(userId);
+            await _userRepository.DeleteAsync(identityUserIderId);
             return NoContent();
         }
     }

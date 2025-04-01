@@ -1,9 +1,7 @@
 ﻿using Dapper;
 using smarth_health.WebApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace smarth_health.WebApi.Repositories
 {

@@ -11,7 +11,7 @@ namespace smarth_health.WebApi.Models
         public string? VideoPath { get; set; }
         public bool Medicine { get; set; }
         [Required(ErrorMessage = "Missing timeline tooltip content")]
-        public required string ToolTipContent;
+        public required string ToolTipContent { get; set; }
         public string? ImagePath { get; set; }
         [Required(ErrorMessage = "Missing timeline position")]
         public required string Position { get; set; }
