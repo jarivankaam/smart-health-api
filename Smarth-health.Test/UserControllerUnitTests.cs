@@ -1,25 +1,25 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using smarth_health.WebApi.Controllers;
 using smarth_health.WebApi.Models;
 using smarth_health.WebApi.Repositories;
+using smarth_health.WebApi.Services;
 
 namespace smarth_health.Tests
 {
     [TestClass]
     public sealed class UserControllerTests
     {
+        private Mock<IIdentityService> _identityService;
         private Mock<IUserRepository> _userRepository;
         private UserController _controller;
 
         [TestInitialize]
         public void Setup()
         {
+            _identityService = new Mock<IIdentityService>();
             _userRepository = new Mock<IUserRepository>();
-            _controller = new UserController(_userRepository.Object);
+            _controller = new UserController(_userRepository.Object, _identityService.Object);
         }
 
         [TestMethod]
@@ -53,17 +53,29 @@ namespace smarth_health.Tests
         {
             // ARRANGE
             var identityUserId = Guid.NewGuid();
-            var user = new User { ID = Guid.NewGuid(), IdentityUserID = identityUserId };
+            var userDto = new UserDto { ID = Guid.NewGuid(), IdentityUserID = identityUserId.ToString() };
+
             _userRepository.Setup(repo => repo.ReadAsync(identityUserId))
-                           .ReturnsAsync(user);
+                           .ReturnsAsync(userDto); 
+
+            var expectedUser = new User
+            {
+                ID = userDto.ID,
+                IdentityUserID = Guid.Parse(userDto.IdentityUserID)
+            };
 
             // ACT
             var result = await _controller.GetUser(identityUserId);
 
             // ASSERT
-            var okResult = result as OkObjectResult;
+            var okResult = result.Result as OkObjectResult;
             Assert.IsNotNull(okResult, "Expected OkObjectResult");
-            Assert.AreEqual(user, okResult.Value);
+
+            var returnedUser = okResult.Value as User;
+            Assert.IsNotNull(returnedUser, "Expected value to be of type User");
+
+            Assert.AreEqual(expectedUser.ID, returnedUser.ID);
+            Assert.AreEqual(expectedUser.IdentityUserID, returnedUser.IdentityUserID);
         }
 
         [TestMethod]
@@ -72,13 +84,13 @@ namespace smarth_health.Tests
             // ARRANGE
             var identityUserId = Guid.NewGuid();
             _userRepository.Setup(repo => repo.ReadAsync(identityUserId))
-                           .ReturnsAsync((User)null);
+                           .ReturnsAsync((UserDto)null);
 
             // ACT
             var result = await _controller.GetUser(identityUserId);
 
             // ASSERT
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
         }
 
         [TestMethod]

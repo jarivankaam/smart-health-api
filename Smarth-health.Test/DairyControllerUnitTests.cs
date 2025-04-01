@@ -50,17 +50,17 @@ namespace smarth_health.Tests
         {
             // ARRANGE
             var id = Guid.NewGuid();
-            var dairy = new Dairy { Id = id };
-            _dairyRepository.Setup(repo => repo.GetByIdAsync(id)).ReturnsAsync(dairy);
+            var user = new Dairy { UserId = id };
+            _dairyRepository.Setup(repo => repo.GetByUserIdAsync(id)).ReturnsAsync(user);
 
             // ACT
-            var result = await _controller.GetDairy(id);
+            var result = await _controller.GetDairyByUserId(id);
 
             // ASSERT
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult, "Expected OkObjectResult");
             Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
-            Assert.AreEqual(dairy, okResult.Value);
+            Assert.AreEqual(user, okResult.Value);
         }
 
         [TestMethod]
@@ -68,10 +68,10 @@ namespace smarth_health.Tests
         {
             // ARRANGE
             var id = Guid.NewGuid();
-            _dairyRepository.Setup(repo => repo.GetByIdAsync(id)).ReturnsAsync((Dairy)null);
+            _dairyRepository.Setup(repo => repo.GetByUserIdAsync(id)).ReturnsAsync((Dairy)null);
 
             // ACT
-            var result = await _controller.GetDairy(id);
+            var result = await _controller.GetDairyByUserId(id);
 
             // ASSERT
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
@@ -91,7 +91,7 @@ namespace smarth_health.Tests
             // ASSERT
             var createdResult = result as CreatedAtActionResult;
             Assert.IsNotNull(createdResult, "Expected CreatedAtActionResult");
-            Assert.AreEqual(nameof(_controller.GetDairy), createdResult.ActionName);
+            Assert.AreEqual(nameof(_controller.GetDairyByUserId), createdResult.ActionName);
 
             var returnedDairy = createdResult.Value as Dairy;
             Assert.IsNotNull(returnedDairy, "Returned dairy should not be null.");
@@ -135,7 +135,7 @@ namespace smarth_health.Tests
             var id = Guid.NewGuid();
             var dairy = new Dairy { Id = id };
 
-            _dairyRepository.Setup(repo => repo.GetByIdAsync(id))
+            _dairyRepository.Setup(repo => repo.GetByDairyIdAsync(id))
                            .ReturnsAsync((Dairy)null);
 
             // ACT
@@ -152,7 +152,7 @@ namespace smarth_health.Tests
             var id = Guid.NewGuid();
             var dairy = new Dairy { Id = id };
 
-            _dairyRepository.Setup(repo => repo.GetByIdAsync(id))
+            _dairyRepository.Setup(repo => repo.GetByDairyIdAsync(id))
                            .ReturnsAsync(dairy);
             _dairyRepository.Setup(repo => repo.UpdateAsync(dairy))
                            .Returns(Task.CompletedTask);
@@ -170,7 +170,7 @@ namespace smarth_health.Tests
         {
             // ARRANGE
             var id = Guid.NewGuid();
-            _dairyRepository.Setup(repo => repo.GetByIdAsync(id))
+            _dairyRepository.Setup(repo => repo.GetByDairyIdAsync(id))
                            .ReturnsAsync((Dairy)null);
 
             // ACT
@@ -187,7 +187,7 @@ namespace smarth_health.Tests
             var id = Guid.NewGuid();
             var dairy = new Dairy { Id = id };
 
-            _dairyRepository.Setup(repo => repo.GetByIdAsync(id))
+            _dairyRepository.Setup(repo => repo.GetByDairyIdAsync(id))
                            .ReturnsAsync(dairy);
             _dairyRepository.Setup(repo => repo.DeleteAsync(id))
                            .Returns(Task.CompletedTask);

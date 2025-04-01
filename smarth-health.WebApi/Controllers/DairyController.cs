@@ -23,12 +23,12 @@ namespace smarth_health.WebApi.Controllers
             return Ok(dairies);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{userId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetDairy(Guid id)
+        public async Task<IActionResult> GetDairyByUserId(Guid userId)
         {
-            var dairy = await _dairyRepository.GetByIdAsync(id);
+            var dairy = await _dairyRepository.GetByUserIdAsync(userId);
             if (dairy == null)
                 return NotFound();
 
@@ -45,7 +45,7 @@ namespace smarth_health.WebApi.Controllers
 
             dairy.Id = Guid.NewGuid();
             await _dairyRepository.CreateAsync(dairy);
-            return CreatedAtAction(nameof(GetDairy), new { id = dairy.Id }, dairy);
+            return CreatedAtAction(nameof(GetDairyByUserId), new { userId = dairy.UserId }, dairy);
         }
 
         [HttpPut("{id:guid}")]
@@ -57,7 +57,7 @@ namespace smarth_health.WebApi.Controllers
             if (id != dairy.Id)
                 return BadRequest();
 
-            var existingDairy = await _dairyRepository.GetByIdAsync(id);
+            var existingDairy = await _dairyRepository.GetByDairyIdAsync(id);
             if (existingDairy == null)
                 return NotFound();
 
@@ -70,7 +70,7 @@ namespace smarth_health.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteDairy(Guid id)
         {
-            var existingDairy = await _dairyRepository.GetByIdAsync(id);
+            var existingDairy = await _dairyRepository.GetByDairyIdAsync(id);
             if (existingDairy == null)
                 return NotFound();
 
