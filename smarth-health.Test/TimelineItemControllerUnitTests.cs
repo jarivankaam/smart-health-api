@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using smarth_health.WebApi.Controllers;
 using smarth_health.WebApi.Models;
@@ -27,16 +23,17 @@ namespace smarth_health.Tests
         [TestMethod]
         public async Task GetAll_ReturnsOkObjectResult_WithListOfItems()
         {
+            var timeLineId = Guid.NewGuid();
             // ARRANGE
             var items = new List<TimeLineItem>
             {
                 new() { ID = Guid.NewGuid(), Content = "Content1", ToolTipContent = "ToolTip1", Position = "Position1" },
                 new() { ID = Guid.NewGuid(), Content = "Content2", ToolTipContent = "ToolTip2", Position = "Position2" }
             };
-            _repository.Setup(r => r.GetAllAsync()).ReturnsAsync(items);
+            _repository.Setup(r => r.GetAllAsync(timeLineId)).ReturnsAsync(items);
 
             // ACT
-            var result = await _controller.GetAll();
+            var result = await _controller.GetAll(timeLineId);
 
             // ASSERT
             var okResult = result as OkObjectResult;
