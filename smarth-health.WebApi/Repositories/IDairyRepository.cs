@@ -5,7 +5,8 @@ namespace smarth_health.WebApi.Repositories
     public interface IDairyRepository
     {
         Task<IEnumerable<Dairy>> GetAllAsync();
-        Task<Dairy> GetByIdAsync(Guid id);
+        Task<Dairy> GetByDairyIdAsync(Guid id);
+        Task<Dairy> GetByUserIdAsync(Guid userId);
         Task CreateAsync(Dairy dairy);
         Task UpdateAsync(Dairy dairy);
         Task DeleteAsync(Guid id);

@@ -19,10 +19,16 @@ namespace smarth_health.WebApi.Repositories
             return await _dbConnection.QueryAsync<Dairy>(sql);
         }
 
-        public async Task<Dairy> GetByIdAsync(Guid id)
+        public async Task<Dairy> GetByDairyIdAsync(Guid id)
         {
             var sql = "SELECT * FROM Dairy WHERE Id = @Id";
             return await _dbConnection.QueryFirstOrDefaultAsync<Dairy>(sql, new { Id = id });
+        }
+
+        public async Task<Dairy> GetByUserIdAsync(Guid userId)
+        {
+            var sql = "SELECT * FROM Dairy WHERE UserId = @UserId";
+            return await _dbConnection.QueryFirstOrDefaultAsync<Dairy>(sql, new { UserId = userId });
         }
 
         public async Task CreateAsync(Dairy dairy)
