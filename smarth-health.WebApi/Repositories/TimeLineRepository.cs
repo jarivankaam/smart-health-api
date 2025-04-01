@@ -20,7 +20,7 @@ namespace smarth_health.WebApi.Repositories
             return await _dbConnection.QueryAsync<Timeline>(sql);
         }
 
-        public async Task<Timeline> ReadAsync(Guid id)
+        public async Task<Timeline> GetByTimeLineByIdAsync(Guid id)
         {
             var sql = "SELECT Id, Name, RouteType, UserID FROM Timeline WHERE Id = @Id";
             if (_dbConnection.State != ConnectionState.Open) _dbConnection.Open();
@@ -29,6 +29,24 @@ namespace smarth_health.WebApi.Repositories
             if (result == null)
             {
                 Console.WriteLine($"No timeline found for Id: {id}");
+            }
+            else
+            {
+                Console.WriteLine($"Timeline found: {result.ID}, {result.Name}, {result.RouteType}");
+            }
+
+            return result;
+        }
+
+        public async Task<Timeline> GetByTimeLineByUserIdAsync(Guid userId)
+        {
+            var sql = "SELECT Id, Name, RouteType, UserID FROM Timeline WHERE UserID = @UserId";
+            if (_dbConnection.State != ConnectionState.Open) _dbConnection.Open();
+            var result = await _dbConnection.QueryFirstOrDefaultAsync<Timeline>(sql, new { UserId = userId });
+
+            if (result == null)
+            {
+                Console.WriteLine($"No timeline found for user Id: {userId}");
             }
             else
             {

@@ -13,10 +13,10 @@ namespace smarth_health.WebApi.Repositories
             _dbConnection = dbConnection;
         }
 
-        public async Task<IEnumerable<TimeLineItem>> GetAllAsync()
+        public async Task<IEnumerable<TimeLineItem>> GetAllAsync(Guid timeLineId)
         {
-            var sql = "SELECT * FROM TimeLineItem";
-            return await _dbConnection.QueryAsync<TimeLineItem>(sql);
+            var sql = "SELECT * FROM TimeLineItem WHERE TimeLineId = @TimeLineId";
+            return await _dbConnection.QueryAsync<TimeLineItem>(sql, new { TimeLineId = timeLineId } );
         }
 
         public async Task<TimeLineItem> GetByIdAsync(Guid id)
