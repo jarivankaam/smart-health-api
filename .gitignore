@@ -482,8 +482,13 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
 # Build artifacts
 bin/
 obj/
-smarth-health.Test/obj
-smarth-health.WebApi/obj
+**/obj/
+**/bin/
+
+# Specific folders to ignore
+smarth-health.Test/obj/
+smarth-health.WebApi/obj/
