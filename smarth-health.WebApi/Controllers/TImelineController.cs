@@ -20,13 +20,13 @@ public class TimelineController : ControllerBase
     {
         timeline.ID = Guid.NewGuid();
         await _timelineRepository.InsertAsync(timeline);
-        return CreatedAtAction(nameof(GetTimeline), new { id = timeline.ID }, timeline);
+        return CreatedAtAction(nameof(GetTimeLineByUserId), new { userId = timeline.UserID }, timeline);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetTimeline(Guid id)
+    [HttpGet("{userId:guid}")]
+    public async Task<IActionResult> GetTimeLineByUserId(Guid userId)
     {
-        var timeline = await _timelineRepository.ReadAsync(id);
+        var timeline = await _timelineRepository.GetByTimeLineByUserIdAsync(userId);
         if (timeline == null) return NotFound();
         return Ok(timeline);
     }

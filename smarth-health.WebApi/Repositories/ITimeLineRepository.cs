@@ -5,7 +5,8 @@ namespace smarth_health.WebApi.Repositories
     public interface ITimelineRepository
     {
         Task InsertAsync(Timeline timeline);
-        Task<Timeline> ReadAsync(Guid timelineId);
+        Task<Timeline> GetByTimeLineByIdAsync(Guid timelineId);
+        Task<Timeline> GetByTimeLineByUserIdAsync(Guid userId);
         Task UpdateAsync(Timeline timeline);
         Task DeleteAsync(Guid timelineId);
     }
