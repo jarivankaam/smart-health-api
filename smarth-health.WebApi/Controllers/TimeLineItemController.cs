@@ -15,11 +15,11 @@ namespace smarth_health.WebApi.Controllers
             _timeLineItemRepository = timeLineItemRepository;
         }
 
-        [HttpGet]
+        [HttpGet("user/{timeLineId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(Guid timeLineId)
         {
-            var items = await _timeLineItemRepository.GetAllAsync();
+            var items = await _timeLineItemRepository.GetAllAsync(timeLineId);
             return Ok(items);
         }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using smarth_health.WebApi.Controllers;
 using smarth_health.WebApi.Models;
@@ -41,7 +38,7 @@ namespace smarth_health.Tests
             var createdResult = result as CreatedAtActionResult;
             Assert.IsNotNull(createdResult, "Expected CreatedAtActionResult");
             // The action name should be GetTimeline as defined in the controller.
-            Assert.AreEqual(nameof(TimelineController.GetTimeline), createdResult.ActionName);
+            Assert.AreEqual(nameof(TimelineController.GetTimeLineByUserId), createdResult.ActionName);
 
             var returnedTimeline = createdResult.Value as Timeline;
             Assert.IsNotNull(returnedTimeline, "Returned timeline should not be null.");
@@ -56,18 +53,18 @@ namespace smarth_health.Tests
         public async Task GetTimeline_ExistingTimeline_ReturnsOkObjectResult()
         {
             // ARRANGE
-            var timelineId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
             var timeline = new Timeline
             {
-                ID = timelineId,
+                ID = Guid.NewGuid(),
                 Name = "Test Timeline",
-                UserID = Guid.NewGuid(),
+                UserID = userId,
                 RouteType = false
             };
-            _timelineRepository.Setup(r => r.ReadAsync(timelineId)).ReturnsAsync(timeline);
+            _timelineRepository.Setup(r => r.GetByTimeLineByUserIdAsync(userId)).ReturnsAsync(timeline);
 
             // ACT
-            var result = await _controller.GetTimeline(timelineId);
+            var result = await _controller.GetTimeLineByUserId(userId);
 
             // ASSERT
             var okResult = result as OkObjectResult;
@@ -79,11 +76,11 @@ namespace smarth_health.Tests
         public async Task GetTimeline_NonExistingTimeline_ReturnsNotFoundResult()
         {
             // ARRANGE
-            var timelineId = Guid.NewGuid();
-            _timelineRepository.Setup(r => r.ReadAsync(timelineId)).ReturnsAsync((Timeline)null);
+            var userId = Guid.NewGuid();
+            _timelineRepository.Setup(r => r.GetByTimeLineByIdAsync(userId)).ReturnsAsync((Timeline)null);
 
             // ACT
-            var result = await _controller.GetTimeline(timelineId);
+            var result = await _controller.GetTimeLineByUserId(userId);
 
             // ASSERT
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
