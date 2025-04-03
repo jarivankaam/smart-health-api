@@ -6,6 +6,7 @@ namespace smarth_health.WebApi.Repositories
     {
         Task<IEnumerable<TimeLineItem>>? GetAllAsync(Guid timeLineId);
         Task<TimeLineItem> GetByIdAsync(Guid id);
+        Task<TimeLineItem> GetByType(string type);
         Task CreateAsync(TimeLineItem item);
         Task UpdateAsync(TimeLineItem item);
         Task DeleteAsync(Guid id);

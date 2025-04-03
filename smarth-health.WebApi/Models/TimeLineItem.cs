@@ -15,6 +15,8 @@ namespace smarth_health.WebApi.Models
         public string? ImagePath { get; set; }
         [Required(ErrorMessage = "Missing timeline position")]
         public required string Position { get; set; }
+
+        public string Type { get; set; }
         public Guid TimeLineID { get; set; }
 
     }

@@ -34,6 +34,17 @@ namespace smarth_health.WebApi.Controllers
 
             return Ok(item);
         }
+        [HttpGet("type/{type}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByType(string type)
+        {
+            var item = await _timeLineItemRepository.GetByType(type);
+            if (item == null)
+                return NotFound();
+
+            return Ok(item);
+        }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

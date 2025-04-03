@@ -23,6 +23,12 @@ namespace smarth_health.WebApi.Repositories
         {
             var sql = "SELECT * FROM TimeLineItem WHERE ID = @Id";
             return await _dbConnection.QueryFirstOrDefaultAsync<TimeLineItem>(sql, new { Id = id });
+        } 
+        
+        public async Task<TimeLineItem> GetByType(string type)
+        {
+            var sql = "SELECT * FROM TimeLineItem WHERE Type = @Type";
+            return await _dbConnection.QueryFirstOrDefaultAsync<TimeLineItem>(sql, new { Type = type });
         }
 
         public async Task CreateAsync(TimeLineItem item)
