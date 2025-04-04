@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using smarth_health.WebApi.Models;
 using smarth_health.WebApi.Repositories;
 
@@ -17,6 +18,7 @@ namespace smarth_health.WebApi.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize]
         public async Task<IActionResult> GetAllDairies()
         {
             var dairies = await _dairyRepository.GetAllAsync();
@@ -38,6 +40,7 @@ namespace smarth_health.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize]
         public async Task<IActionResult> CreateDairy([FromBody] Dairy dairy)
         {
             if (!ModelState.IsValid)
@@ -52,6 +55,7 @@ namespace smarth_health.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<IActionResult> UpdateDairy(Guid id, [FromBody] Dairy dairy)
         {
             if (id != dairy.Id)
@@ -68,6 +72,7 @@ namespace smarth_health.WebApi.Controllers
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<IActionResult> DeleteDairy(Guid id)
         {
             var existingDairy = await _dairyRepository.GetByDairyIdAsync(id);

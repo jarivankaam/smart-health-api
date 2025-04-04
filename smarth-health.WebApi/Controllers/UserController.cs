@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using smarth_health.WebApi.Models;
 using smarth_health.WebApi.Repositories;
 using smarth_health.WebApi.Services;
@@ -22,6 +23,7 @@ namespace smarth_health.WebApi.Controllers
         // Creating a new user
         [HttpPost(Name = "CreateUser")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [Authorize]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
             user.ID = Guid.NewGuid();
@@ -32,6 +34,7 @@ namespace smarth_health.WebApi.Controllers
         // GET / READ
 
         [HttpGet("CurrentUser")]
+        [Authorize]
         public async Task<ActionResult<Guid>> GetIdentityIdByUser()
         {
             try
@@ -59,6 +62,7 @@ namespace smarth_health.WebApi.Controllers
         [HttpGet("{identityUserId:guid}", Name = "GetUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<ActionResult<User>> GetUser([FromBody] Guid identityUserId)
         {
             var user = await _userRepository.ReadAsync(identityUserId);
@@ -85,6 +89,7 @@ namespace smarth_health.WebApi.Controllers
         [HttpPut("{userId:guid}", Name = "UpdateUser")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] User user)
         {
             // Check if userId is the same as user.ID
@@ -99,6 +104,7 @@ namespace smarth_health.WebApi.Controllers
         // Deleting user by userId
         [HttpDelete("{identityUserIderId:guid}", Name = "DeleteUser")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(Guid identityUserIderId)
         {
             await _userRepository.DeleteAsync(identityUserIderId);

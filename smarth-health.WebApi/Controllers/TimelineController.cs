@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using smarth_health.WebApi.Models;
 using smarth_health.WebApi.Repositories;
 
@@ -16,6 +17,7 @@ public class TimelineController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateTimeline([FromBody] Timeline timeline)
     {
         timeline.ID = Guid.NewGuid();
@@ -24,6 +26,7 @@ public class TimelineController : ControllerBase
     }
 
     [HttpGet("{userId:guid}")]
+    [Authorize]
     public async Task<IActionResult> GetTimeLineByUserId(Guid userId)
     {
         var timeline = await _timelineRepository.GetByTimeLineByUserIdAsync(userId);
@@ -32,6 +35,7 @@ public class TimelineController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> UpdateTimeline(Guid id, [FromBody] Timeline timeline)
     {
         if (id != timeline.ID) return BadRequest();
@@ -40,6 +44,7 @@ public class TimelineController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> DeleteTimeline(Guid id)
     {
         await _timelineRepository.DeleteAsync(id);
