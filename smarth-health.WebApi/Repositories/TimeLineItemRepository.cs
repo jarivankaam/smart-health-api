@@ -35,7 +35,7 @@ namespace smarth_health.WebApi.Repositories
         {
             SanitizeItemStrings(item);
             var sql = @"
-            INSERT INTO TimeLineItem (ID, Content, Video, VideoPath, Medicine, ToolTipContent, ImagePath, Type, Position, TimeLineID)
+            INSERT INTO TimeLineItem (ID, Content, Video, VideoPath, Medicine, ToolTipContent, ImagePath, Position, Type, TimeLineID)
             VALUES (@ID, @Content, @Video, @VideoPath, @Medicine, @ToolTipContent, @ImagePath, @Position, @Type, @TimeLineID)";
 
             await _dbConnection.ExecuteAsync(sql, item);
